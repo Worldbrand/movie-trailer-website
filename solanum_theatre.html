@@ -1,0 +1,308 @@
+
+<head>
+    <meta charset="utf-8">
+    <title>Solanum Theatre</title>
+    
+    <!-- Bootstrap 3 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <style type="text/css" media="screen">
+        body{
+            padding-top: 80px;
+            background-image: url("images/BackgroundTile.png");
+        }
+        #header{
+            align-content: center;
+        }
+        #trailer .modal-dialog{
+            margin-top: 200px;
+        }
+        .modal-backdrop{
+        opacity:0.75 !important;
+        }
+        .hanging-close{
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            z-index: 9001;
+        }
+        #trailer-video{
+            width: 100%;
+            height: 100%;
+        }
+        .movie-tile{
+            margin-bottom: 20px;
+            padding-top: 30px;
+            padding-bottom:10px;
+            border-radius:10px;
+        }
+        .movie-tile:hover{
+            background-color: #CCC;
+            cursor: pointer;
+        }
+        .scale-media{
+            padding-bottom: 56.25%;
+            position: relative;
+        }
+        .scale-media iframe{
+            border: none;
+            height: 100%;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: 0;
+            background-color: white;
+        }
+        .movie-info{
+            background-color: #CCC;
+            border-radius: 10px;
+            margin: 20px;
+            padding:20px;
+        }
+        .modal-content{
+            border-radius:  10px;
+            background-color: #202020;
+        }
+        #movie-list{
+            padding: 20px;
+        }
+        #rating{
+            font-size:20px;
+            font-weight:bold;
+        }
+        #cast{
+            font-weight:bold;
+        }
+        .movie_tile_title{
+            color: #FF6347;
+        }
+    </style>
+    <script type="text/javascript" charset="utf-8">
+        
+
+        //I've modified this function to not only play the trailer,
+        //but also to display information about the movie that is clicked on,
+        //within the same modal dialog
+        $(document).on('click', '.movie-tile', function(event){
+            var title = $(this).attr('data-title');
+            var year = $(this).attr('data-year');
+            var plot = $(this).attr('data-plot');
+            var rating = $(this).attr('data-rating');
+            var cast = $(this).attr('data-cast');
+            var trailerYouTubeId = $(this).attr('data-trailer-youtube-id');
+            var sourceUrl = 'http://www.youtube.com/embed/' + trailerYouTubeId + '?autoplay=1&html5=1';
+            $("#trailer-video-container").empty().append($("<iframe></iframe>",{
+              'id': 'trailer-video',
+              'type': 'text-html',
+              'src': sourceUrl,
+              'frameborder': 0
+            }));
+            
+            //Emptying .movie-info before we append means having a blank slate every time we write to it
+            $(".movie-info").empty().append('<h2 class="text-center">' + title + ' (' + year + ') <h2>');
+            $(".movie-info").append('<p id="rating">' + rating + '</p>');
+            $(".movie-info").append('<p id="cast"> Starring: ' + cast + '</p>');
+            $(".movie-info").append('<p>' + plot + '</p>');
+        });
+        
+        
+        // Animate in the movies when the page loads
+        $(document).ready(function(){
+          $('.movie-tile').hide().first().show("fast", function showNext(){
+            $(this).next("div").show("fast", showNext);
+          });
+        });
+        
+        
+        //When the modal is hidden, stop the youtube player.
+        //This needed to be wrapped as a loaded function, for whatever reason.
+        $(window).load(function(){
+            $("#trailer").on("hidden.bs.modal", function(){
+                // Remove the src so the player itself gets removed, as this is the only
+                // reliable way to ensure the video stops playing in IE
+                $("#trailer-video-container").empty();
+            });
+        });
+
+        
+    </script>
+</head>
+
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        
+        
+        <!-- Trailer Video Modal -->
+        <div class="modal" id="trailer">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <a href="#" class="hanging-close" data-dismiss="modal" aria-hidden="true">
+                        <img src="https://lh5.ggpht.com/v4-628SilF0HtHuHdu5EzxD7WRqOrrTIDi_MhEG6_qkNtUK5Wg7KPkofp_VJoF7RS2LhxwEFCO1ICHZlc-o_=s0#w=24&h=24"/>
+                    </a>
+                    
+                    <!-- Empty class to be filled with data in javascript when the modal is activated -->
+                    <div class="scale-media" id="trailer-video-container">
+                    </div>
+                    
+                    <!-- Empty class to be filled with data in javascript when the modal is activated -->
+                    <div class="movie-info">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- Main Page Content -->
+        <div class="center-block">
+            <img src="images/SolanumTheatreLarge.png" class="img-responsive center-block" alt="Solanum Theatre">
+        </div>
+        <div class="container-fluid" id="movieList">
+            
+<div class="col-md-6 col-lg-3 movie-tile text-center"
+data-toggle="modal" 
+data-target="#trailer"
+
+data-title="Big Hero 6"
+data-year="2014"
+data-plot="The special bond that develops between plus-sized inflatable robot Baymax, and prodigy Hiro Hamada, who team up with a group of friends to form a band of high-tech heroes."
+data-cast="Ryan Potter, Scott Adsit, Jamie Chung"
+data-rating="7.9 on IMDb"
+data-trailer-youtube-id="z3biFxZIJOQ">
+    <img src="http://ia.media-imdb.com/images/M/MV5BMjI4MTIzODU2NV5BMl5BanBnXkFtZTgwMjE0NDAwMjE@._V1_SY317_CR0,0,214,317_AL_.jpg" width="220" height="342">
+    <h2 class="movie_tile_title">Big Hero 6</h2>
+</div>
+
+<div class="col-md-6 col-lg-3 movie-tile text-center"
+data-toggle="modal" 
+data-target="#trailer"
+
+data-title="Interstellar"
+data-year="2014"
+data-plot="A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival."
+data-cast="Matthew McConaughey, Anne Hathaway, Jessica Chastain"
+data-rating="8.7 on IMDb"
+data-trailer-youtube-id="2LqzF5WauAw">
+    <img src="http://ia.media-imdb.com/images/M/MV5BMjIxNTU4MzY4MF5BMl5BanBnXkFtZTgwMzM4ODI3MjE@._V1__SX887_SY928_.jpg" width="220" height="342">
+    <h2 class="movie_tile_title">Interstellar</h2>
+</div>
+
+<div class="col-md-6 col-lg-3 movie-tile text-center"
+data-toggle="modal" 
+data-target="#trailer"
+
+data-title="Gravity"
+data-year="2013"
+data-plot="A medical engineer and an astronaut work together to survive after a catastrophe destroys their shuttle and leaves them adrift in orbit."
+data-cast="Sandra Bullock, George Clooney, Ed Harris"
+data-rating="7.9 on IMDb"
+data-trailer-youtube-id="ufsrgE0BYf0">
+    <img src="http://ia.media-imdb.com/images/M/MV5BNjE5MzYwMzYxMF5BMl5BanBnXkFtZTcwOTk4MTk0OQ@@._V1__SX887_SY928_.jpg" width="220" height="342">
+    <h2 class="movie_tile_title">Gravity</h2>
+</div>
+
+<div class="col-md-6 col-lg-3 movie-tile text-center"
+data-toggle="modal" 
+data-target="#trailer"
+
+data-title="Pacific Rim"
+data-year="2013"
+data-plot="As a war between humankind and monstrous sea creatures wages on, a former pilot and a trainee are paired up to drive a seemingly obsolete special weapon in a desperate effort to save the world from the apocalypse."
+data-cast="Idris Elba, Charlie Hunnam, Rinko Kikuchi"
+data-rating="7.0 on IMDb"
+data-trailer-youtube-id="5guMumPFBag">
+    <img src="http://ia.media-imdb.com/images/M/MV5BMTY3MTI5NjQ4Nl5BMl5BanBnXkFtZTcwOTU1OTU0OQ@@._V1__SX887_SY928_.jpg" width="220" height="342">
+    <h2 class="movie_tile_title">Pacific Rim</h2>
+</div>
+
+<div class="col-md-6 col-lg-3 movie-tile text-center"
+data-toggle="modal" 
+data-target="#trailer"
+
+data-title="Finding Nemo"
+data-year="2003"
+data-plot="After his son is captured in the Great Barrier Reef and taken to Sydney, a timid clownfish sets out on a journey to bring him home."
+data-cast="Albert Brooks, Ellen DeGeneres, Alexander Gould"
+data-rating="8.2 on IMDb"
+data-trailer-youtube-id="AXoZdTe9YFs">
+    <img src="http://ia.media-imdb.com/images/M/MV5BMTY1MTg1NDAxOV5BMl5BanBnXkFtZTcwMjg1MDI5Nw@@._V1__SX887_SY928_.jpg" width="220" height="342">
+    <h2 class="movie_tile_title">Finding Nemo</h2>
+</div>
+
+<div class="col-md-6 col-lg-3 movie-tile text-center"
+data-toggle="modal" 
+data-target="#trailer"
+
+data-title="Cloud Atlas"
+data-year="2012"
+data-plot="An exploration of how the actions of individual lives impact one another in the past, present and future, as one soul is shaped from a killer into a hero, and an act of kindness ripples across centuries to inspire a revolution."
+data-cast="Tom Hanks, Halle Berry, Hugh Grant"
+data-rating="7.5 on IMDb"
+data-trailer-youtube-id="ByehYal_cCs">
+    <img src="http://ia.media-imdb.com/images/M/MV5BMTczMTgxMjc4NF5BMl5BanBnXkFtZTcwNjM5MTA2OA@@._V1__SX887_SY928_.jpg" width="220" height="342">
+    <h2 class="movie_tile_title">Cloud Atlas</h2>
+</div>
+
+<div class="col-md-6 col-lg-3 movie-tile text-center"
+data-toggle="modal" 
+data-target="#trailer"
+
+data-title="In Time"
+data-year="2011"
+data-plot="In a future where people stop aging at 25, but are engineered to live only one more year, having the means to buy your way out of the situation is a shot at immortal youth. Here, Will Salas finds himself accused of murder and on the run with a hostage - a connection that becomes an important part of the way against the system."
+data-cast="Justin Timberlake, Amanda Seyfried, Cillian Murphy"
+data-rating="6.7 on IMDb"
+data-trailer-youtube-id="fdadZ_KrZVw">
+    <img src="http://ia.media-imdb.com/images/M/MV5BMjA3NzI1ODc1MV5BMl5BanBnXkFtZTcwMzI5NjQwNg@@._V1__SX887_SY928_.jpg" width="220" height="342">
+    <h2 class="movie_tile_title">In Time</h2>
+</div>
+
+<div class="col-md-6 col-lg-3 movie-tile text-center"
+data-toggle="modal" 
+data-target="#trailer"
+
+data-title="Alien"
+data-year="1979"
+data-plot="The commercial vessel Nostromo receives a distress call from an unexplored planet. After searching for survivors, the crew heads home only to realize that a deadly bioform has joined them."
+data-cast="Sigourney Weaver, Tom Skerritt, John Hurt"
+data-rating="8.5 on IMDb"
+data-trailer-youtube-id="LjLamj-b0I8">
+    <img src="http://ia.media-imdb.com/images/M/MV5BMTU1ODQ4NjQyOV5BMl5BanBnXkFtZTgwOTQ3NDU2MTE@._V1__SX887_SY928_.jpg" width="220" height="342">
+    <h2 class="movie_tile_title">Alien</h2>
+</div>
+
+<div class="col-md-6 col-lg-3 movie-tile text-center"
+data-toggle="modal" 
+data-target="#trailer"
+
+data-title="Serenity"
+data-year="2005"
+data-plot="The crew of the ship Serenity tries to evade an assassin sent to recapture one of their number who is telepathic."
+data-cast="Nathan Fillion, Gina Torres, Chiwetel Ejiofor"
+data-rating="8.0 on IMDb"
+data-trailer-youtube-id="6nEAlpTb4tk">
+    <img src="http://ia.media-imdb.com/images/M/MV5BMTI0NTY1MzY4NV5BMl5BanBnXkFtZTcwNTczODAzMQ@@._V1__SX887_SY928_.jpg" width="220" height="342">
+    <h2 class="movie_tile_title">Serenity</h2>
+</div>
+
+<div class="col-md-6 col-lg-3 movie-tile text-center"
+data-toggle="modal" 
+data-target="#trailer"
+
+data-title="Gone Girl"
+data-year="2014"
+data-plot="With his wife's disappearance having become the focus of an intense media circus, a man sees the spotlight turned on him when it's suspected that he may not be innocent."
+data-cast="Ben Affleck, Rosamund Pike, Neil Patrick Harris"
+data-rating="8.2 on IMDb"
+data-trailer-youtube-id="esGn-xKFZdU">
+    <img src="http://ia.media-imdb.com/images/M/MV5BMTk0MDQ3MzAzOV5BMl5BanBnXkFtZTgwNzU1NzE3MjE@._V1__SX887_SY928_.jpg" width="220" height="342">
+    <h2 class="movie_tile_title">Gone Girl</h2>
+</div>
+
+        </div>
+        
+        
+    </body>
+</html>
