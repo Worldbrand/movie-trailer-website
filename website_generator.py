@@ -1,9 +1,12 @@
-#This file generates a webpage in html based on data received from entertainment_center.py
-#The data comes in the form of several instances of the Movie class found in media.py
+"""
+This file generates a webpage in html based on 
+data received from entertainment_center.py
+The data comes in the form of several instances of 
+the Movie class found in media.py
+"""
 import webbrowser
 import os
 import re
-
 
 # Styles and scripting for the page
 main_page_head = '''
@@ -108,7 +111,8 @@ main_page_head = '''
               'frameborder': 0
             }));
             
-            //Emptying .movie-info before we append means having a blank slate every time we write to it
+            //Emptying .movie-info before we append means 
+            //having a blank slate every time we write to it
             $(".movie-info").empty().append('<h2 class="text-center">' + title + ' (' + year + ') <h2>');
             $(".movie-info").append('<p id="rating">' + rating + '</p>');
             $(".movie-info").append('<p id="cast"> Starring: ' + cast + '</p>');

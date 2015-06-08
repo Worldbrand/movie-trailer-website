@@ -36,4 +36,3 @@ The HTML segments were written using jQuery and Bootstrap 3.
 Background image is a modified pattern by Pete Fecteau, found on subtlepatterns.com
 YouTube trailer URLs were provided by the respective youtube channels in the links.
 Movie data and posters comes from IMDb.net.
-
